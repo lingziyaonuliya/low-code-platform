@@ -12,13 +12,11 @@ import SortableContainer from "@/app/components/DragSort/SortableContainer";
 import SortableItem from "@/app/components/DragSort/SortableItem";
 
 export default function Canvas() {
-
+    const dispatch = useAppDispatch();
+    const {components} = useAppSelector((state) => state.comp.present); 
     useEffect(() => {
         dispatch(clearComponents())
-    }, []);
-
-    const dispatch = useAppDispatch();
-    const components = useAppSelector((state) => state.comp.present.components);
+    }, [dispatch]);
 
     function getComp(comp: Comp) {
         switch (comp.type) {
@@ -43,7 +41,7 @@ export default function Canvas() {
 
     return (
         <SortableContainer items={components} onDragEnd={handleDragEnd}>
-            <div className="flex-2 p-4 bg-white h-[calc(100vh-96px)] mx-2 my-2 round">
+            <div className="flex-2 p-4 bg-white h-[calc(100vh-96px)] mx-2 my-2 rounded">
                 <div className="text-2xl font-bold">Canvas</div>
                 <div className={"flex flex-col gap-2 mt-5"}>
                     {components.map(comp => <div key={comp.id}>

@@ -11,22 +11,23 @@ import CardPropComp from "@/app/components/Canvas/components/Card/CardPropComp";
 import {Button} from "antd";
 
 export default function PropertyPanel() {
-
     const dispatch = useAppDispatch();
     const {selectedComponentId, components} = useAppSelector((state) => state.comp.present);
-
-    if (selectedComponentId === null) {
-        return <div className={"flex-1 p-4 bg-white h-[calc(100vh-96px)] mx-2 my-2 round"}>
+    if(selectedComponentId === null) {
+        return <div className={"flex-1 p-4 bg-white h-[calc(100vh-96px)] mx-2 my-2 rounded"}>
             <div className="text-2xl font-bold mb-4">Property</div>
             <div>No Component Selected</div>
         </div>
     }
-
-    const selectedComponent = components.find((component) => component.id === selectedComponentId);
-
-
+    const selectedComponent = components.find(c => c.id === selectedComponentId);
     function handleCompChange(values: TextPropCompProp) {
-        dispatch(updateComponent({...selectedComponent, ...values}))
+        if (selectedComponent && selectedComponentId) {
+            dispatch(updateComponent({
+                ...selectedComponent,
+                ...values,
+                id: selectedComponentId
+            }))
+        }
     }
 
     function getComp(selectedComponent: Comp | undefined) {
@@ -52,7 +53,7 @@ export default function PropertyPanel() {
     }
 
     return (
-        <div className="flex-1 p-4 bg-white h-[calc(100vh-96px)] mx-2 my-2 round">
+        <div className="flex-1 p-4 bg-white h-[calc(100vh-96px)] mx-2 my-2 rounded">
             <div className="text-2xl font-bold">Property</div>
             <div>
                 {getComp(selectedComponent)}
